@@ -143,6 +143,8 @@ function preload() {
     game.load.image('ground', 'assets/platform.png');
     game.load.image('star', 'assets/star.png');
     game.load.image('moon', 'assets/moon.png');
+    game.load.spritesheet('blueplayer', 'assets/BluePlayer.png', 64, 32);
+    game.load.spritesheet('redplayer', 'assets/RedPlayer.png', 64, 32);
     game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
     game.load.spritesheet('opponent', 'assets/opponent.png', 32, 48);
 
@@ -152,6 +154,8 @@ var player;
 var opponent1;
 var platforms;
 var cursors;
+var blueplayer;
+var redplayer;
 
 var stars;
 var score = 0;
@@ -168,7 +172,9 @@ function create() {
     background4 = game.add.sprite(800, 0, 'background1');
     background5 = game.add.sprite(800, 0, 'background2');
     background6 = game.add.sprite(800, 0, 'background3');
-    moon = game.add.sprite(800,0, 'moon');
+    moon = game.add.sprite(1000, 500, 'moon');
+    blueplayer = game.add.sprite(100, 300, 'blueplayer');
+    redplayer = game.add.sprite(150, 300, 'redplayer');
 
     //  The platforms group contains the ground and the 2 ledges we can jump on
     platforms = game.add.group();
@@ -193,7 +199,7 @@ function create() {
     ledge.body.immovable = true;
 
     // The player and its settings
-    player = new Player();
+    player = new Player('dude');
 
     opponent1 = new Opponent();
     //  Finally some stars to collect
@@ -230,13 +236,22 @@ function update() {
     moveBackground(background6, 1);
     moveBackground(background4, 3);
     moveBackground(background5, 2);
-    moveBackground(moon, 2);
+    moonspawn(moon, 3)
 
     manage_collisions (game);
     player.move(cursors);
     opponent1.move();
 
 }
+var moonspawn = function(background, speed) {
+    moveBackground(moon, speed);
+    if(background.x < -300) {
+        background.x = game.rnd.integerInRange(3000, 6000);
+        background.y = game.rnd.integerInRange(-100, 500);
+    }
+
+}
+
 var moveBackground = function(background, speed) {
   if (background.x < -800) {
     background.x = 800;
