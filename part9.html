@@ -86,7 +86,7 @@ function Opponent () {
 
     this.x = "x";
     this.y = "y";
-    this.axis = this.x;
+    this.axis = this.y;
 
     this.value.body.velocity.x = 0;
     this.value.body.velocity.y = 100;
@@ -107,12 +107,22 @@ Opponent.prototype.move = function() {
 
 Opponent.prototype.switch_direction = function (self) {
     "use strict";
-    if (self._obj.axis === "x") {
-        self.body.velocity.x *= -1;
-        self.body.velocity.y = 0;
-    } else {
-        self.body.velocity.y *= -1;
+    if (self._obj.axis ===  self._obj.x && self.body.velocity.x > 0) {
+        self.body.velocity.y = -150;
         self.body.velocity.x = 0;
+        self._obj.axis = self._obj.y;
+    } else if (self._obj.axis ===  self._obj.x && self.body.velocity.x <= 0) {
+        self.body.velocity.y = 150;
+        self.body.velocity.x = 0;
+        self._obj.axis = self._obj.y;
+    } else if (self._obj.axis ===  self._obj.y && self.body.velocity.y <= 0) {
+        self.body.velocity.y = 0;
+        self.body.velocity.x = 150;
+        self._obj.axis = self._obj.x;
+    } else {
+        self.body.velocity.y = 0;
+        self.body.velocity.x = -150;
+        self._obj.axis = self._obj.x;
     }
 };
 
