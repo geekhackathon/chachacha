@@ -110,15 +110,17 @@ function create() {
 }
 
 function update() {
+    manage_collisions (game);
+    move(player, cursors);
+}
 
+function manage_collisions (game) {
     //  Collide the player and the stars with the platforms
     game.physics.arcade.collide(player, platforms);
     game.physics.arcade.collide(stars, platforms);
 
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     game.physics.arcade.overlap(player, stars, collectStar, null, this);
-  
-    move(player, cursors);
 }
 
 function move(player,cursors){
