@@ -59,6 +59,25 @@ Player.prototype.collideWith = function(first_argument) {
     game.physics.arcade.collide(this.player, platforms);
 };
 
+function Opponent () {
+
+    this.value = game.add.sprite(32, game.world.height - 350, 'opponent');
+    var value = this.value;
+
+    game.physics.arcade.enable(value);
+    value.body.collideWorldBounds = true;
+
+    value.animations.add('left', [0, 1, 2, 3], 10, true);
+    value.animations.add('right', [5, 6, 7, 8], 10, true);
+
+}
+
+Opponent.prototype.move = function() {
+    this.value.body.velocity.x = 100;
+    this.value.body.velocity.y = 0;
+};
+
+
 function preload() {
 
     game.load.image('background1', 'assets/background_layout_stars_one.png');
@@ -115,14 +134,7 @@ function create() {
     // The player and its settings
     player = new Player();
 
-    opponent1 = game.add.sprite(32, game.world.height - 350, 'opponent');
-
-    game.physics.arcade.enable(opponent1);
-    opponent1.body.collideWorldBounds = true;
-
-    opponent1.animations.add('left', [0, 1, 2, 3], 10, true);
-    opponent1.animations.add('right', [5, 6, 7, 8], 10, true);
-
+    opponent1 = new Opponent();
     //  Finally some stars to collect
     stars = game.add.group();
 
@@ -153,6 +165,7 @@ function create() {
 function update() {
     manage_collisions (game);
     player.move(cursors);
+    opponent1.move();
 }
 
 function manage_collisions (game) {
