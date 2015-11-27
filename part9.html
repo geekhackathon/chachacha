@@ -86,28 +86,52 @@ function Opponent () {
 
     this.x = "x";
     this.y = "y";
-    this.axis = this.x;
+    this.axis = this.y;
+
+    this.value.body.velocity.x = 0;
+    this.value.body.velocity.y = 100;
+
+    this.value.body.bounce.y = 0.2;
+    this.value.body.bounce.x = 0.2;
+
+    this.value._obj = this;
 
 }
 
 Opponent.prototype.move = function() {
-    this.value.body.velocity.x = 0;
-    this.value.body.velocity.y = 100;
+    /*
+    this.value.body.position.x += this.value.body.velocity.x/4;
+    this.value.body.position.y += this.value.body.velocity.y/4;
+    */
 };
 
-Opponent.prototype.switch_direction = function () {
+Opponent.prototype.switch_direction = function (self) {
     "use strict";
-    if (this.axis === this.x) {
-        this.axis = this.y;
-        this.body.velocity.x *= -1;
+    if (self._obj.axis ===  self._obj.x && self.body.velocity.x > 0) {
+        self.body.velocity.y = -150;
+        self.body.velocity.x = 0;
+        self._obj.axis = self._obj.y;
+    } else if (self._obj.axis ===  self._obj.x && self.body.velocity.x <= 0) {
+        self.body.velocity.y = 150;
+        self.body.velocity.x = 0;
+        self._obj.axis = self._obj.y;
+    } else if (self._obj.axis ===  self._obj.y && self.body.velocity.y <= 0) {
+        self.body.velocity.y = 0;
+        self.body.velocity.x = 150;
+        self._obj.axis = self._obj.x;
     } else {
-        this.axis = this.x;
-        this.body.velocity.y *= -1;
+        self.body.velocity.y = 0;
+        self.body.velocity.x = -150;
+        self._obj.axis = self._obj.x;
     }
 };
 
+Opponent.prototype.overlap  = function(obstacles) {
+    game.physics.arcade.overlap(this.value, obstacles, this.switch_direction, null, this);
+}
+
 Opponent.prototype.collideWith = function(platforms) {
-    game.physics.arcade.collide(this.value, platforms);
+    game.physics.arcade.collide(this.value, platforms, this.switch_direction, null, null);
 };
 
 
@@ -230,6 +254,7 @@ function manage_collisions (game) {
 
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     player.overlap(stars);
+    //opponent1.overlap(platforms);
 }
 
 
