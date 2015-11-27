@@ -55,13 +55,27 @@ Player.prototype.move = function(cursors) {
     }
 };
 
-Player.prototype.collideWith = function(first_argument) {
+Player.prototype.collideWith = function(platforms) {
     game.physics.arcade.collide(this.player, platforms);
 };
 
+Player.prototype.collectStar  = function(player, star) {
+
+    // Removes the star from the screen
+    star.kill();
+
+    //  Add and update the score
+    score += 10;
+    scoreText.text = 'Score: ' + score;
+}
+
+Player.prototype.overlap  = function(stars) {
+    game.physics.arcade.overlap(this.player, stars, this.collectStar, null, null);
+}
+
 function Opponent () {
 
-    this.value = game.add.sprite(32, game.world.height - 350, 'opponent');
+    this.value = game.add.sprite(32, game.world.height - 500, 'redplayer');
     var value = this.value;
 
     game.physics.arcade.enable(value);
@@ -70,21 +84,67 @@ function Opponent () {
     value.animations.add('left', [0, 1, 2, 3], 10, true);
     value.animations.add('right', [5, 6, 7, 8], 10, true);
 
+    this.x = "x";
+    this.y = "y";
+    this.axis = this.y;
+
+    this.value.body.velocity.x = 0;
+    this.value.body.velocity.y = 100;
+
+    this.value.body.bounce.y = 0.2;
+    this.value.body.bounce.x = 0.2;
+
+    this.value._obj = this;
+
 }
 
 Opponent.prototype.move = function() {
-    this.value.body.velocity.x = 100;
-    this.value.body.velocity.y = 0;
+    /*
+    this.value.body.position.x += this.value.body.velocity.x/4;
+    this.value.body.position.y += this.value.body.velocity.y/4;
+    */
+};
+
+Opponent.prototype.switch_direction = function (self) {
+    "use strict";
+    if (self._obj.axis ===  self._obj.x && self.body.velocity.x > 0) {
+        self.body.velocity.y = -150;
+        self.body.velocity.x = 0;
+        self._obj.axis = self._obj.y;
+    } else if (self._obj.axis ===  self._obj.x && self.body.velocity.x <= 0) {
+        self.body.velocity.y = 150;
+        self.body.velocity.x = 0;
+        self._obj.axis = self._obj.y;
+    } else if (self._obj.axis ===  self._obj.y && self.body.velocity.y <= 0) {
+        self.body.velocity.y = 0;
+        self.body.velocity.x = 150;
+        self._obj.axis = self._obj.x;
+    } else {
+        self.body.velocity.y = 0;
+        self.body.velocity.x = -150;
+        self._obj.axis = self._obj.x;
+    }
+};
+
+Opponent.prototype.overlap  = function(obstacles) {
+    game.physics.arcade.overlap(this.value, obstacles, this.switch_direction, null, this);
+}
+
+Opponent.prototype.collideWith = function(platforms) {
+    game.physics.arcade.collide(this.value, platforms, this.switch_direction, null, null);
 };
 
 
 function preload() {
 
     game.load.image('background1', 'assets/background_layout_stars_one.png');
-	game.load.image('background2', 'assets/background_layout_stars_two.png');
-	game.load.image('background3', 'assets/background_layout_stars_three.png');
+    game.load.image('background2', 'assets/background_layout_stars_two.png');
+    game.load.image('background3', 'assets/background_layout_stars_three.png');
     game.load.image('ground', 'assets/platform.png');
     game.load.image('star', 'assets/star.png');
+    game.load.image('moon', 'assets/moon.png');
+    game.load.spritesheet('blueplayer', 'assets/BluePlayer.png', 64, 32);
+    game.load.spritesheet('redplayer', 'assets/RedPlayer.png', 64, 32);
     game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
     game.load.spritesheet('opponent', 'assets/opponent.png', 32, 48);
 
@@ -94,6 +154,8 @@ var player;
 var opponent1;
 var platforms;
 var cursors;
+var blueplayer;
+var redplayer;
 
 var stars;
 var score = 0;
@@ -104,10 +166,15 @@ function create() {
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    //  A simple background for our game
-    game.add.sprite(0, 0, 'background1');
-	game.add.sprite(0, 0, 'background2');
-	game.add.sprite(0, 0, 'background3');
+    background1 = game.add.sprite(0, 0, 'background1');
+    background2 = game.add.sprite(0, 0, 'background2');
+    background3 = game.add.sprite(0, 0, 'background3');
+    background4 = game.add.sprite(800, 0, 'background1');
+    background5 = game.add.sprite(800, 0, 'background2');
+    background6 = game.add.sprite(800, 0, 'background3');
+    moon = game.add.sprite(1000, 500, 'moon');
+    blueplayer = game.add.sprite(100, 300, 'blueplayer');
+    redplayer = game.add.sprite(150, 300, 'redplayer');
 
     //  The platforms group contains the ground and the 2 ledges we can jump on
     platforms = game.add.group();
@@ -132,7 +199,7 @@ function create() {
     ledge.body.immovable = true;
 
     // The player and its settings
-    player = new Player();
+    player = new Player('dude');
 
     opponent1 = new Opponent();
     //  Finally some stars to collect
@@ -145,7 +212,7 @@ function create() {
     for (var i = 0; i < 12; i++)
     {
         //  Create a star inside of the 'stars' group
-        var star = stars.create(i * 70, 0, 'star');
+        var star = stars.create(i * 70, 500, 'star');
 
         //  Let gravity do its thing
         star.body.gravity.y = 0;
@@ -163,30 +230,49 @@ function create() {
 }
 
 function update() {
+    moveBackground(background1, 3);
+    moveBackground(background2, 2);
+    moveBackground(background3, 1);
+    moveBackground(background6, 1);
+    moveBackground(background4, 3);
+    moveBackground(background5, 2);
+    moonspawn(moon, 3)
+
     manage_collisions (game);
     player.move(cursors);
     opponent1.move();
+
+}
+var moonspawn = function(background, speed) {
+    moveBackground(moon, speed);
+    if(background.x < -300) {
+        background.x = game.rnd.integerInRange(3000, 6000);
+        background.y = game.rnd.integerInRange(-100, 500);
+    }
+
+}
+
+var moveBackground = function(background, speed) {
+  if (background.x < -800) {
+    background.x = 800;
+    background.x -= speed;
+  } else {}
+    background.x -= speed
 }
 
 function manage_collisions (game) {
     //  Collide the player and the stars with the platforms
     player.collideWith(platforms);
+    opponent1.collideWith(platforms);
+
     game.physics.arcade.collide(stars, platforms);
 
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
-    game.physics.arcade.overlap(player.player, stars, collectStar, null, this);
+    player.overlap(stars);
+    //opponent1.overlap(platforms);
 }
 
-function collectStar (player, star) {
 
-    // Removes the star from the screen
-    star.kill();
-
-    //  Add and update the score
-    score += 10;
-    scoreText.text = 'Score: ' + score;
-
-}
 
 </script>
 
