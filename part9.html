@@ -85,6 +85,7 @@ function preload() {
     game.load.image('background3', 'assets/background_layout_stars_three.png');
     game.load.image('ground', 'assets/platform.png');
     game.load.image('star', 'assets/star.png');
+    game.load.image('moon', 'assets/moon.png');
     game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
     game.load.spritesheet('opponent', 'assets/opponent.png', 32, 48);
 
@@ -110,6 +111,7 @@ function create() {
     background4 = game.add.sprite(800, 0, 'background1');
     background5 = game.add.sprite(800, 0, 'background2');
     background6 = game.add.sprite(800, 0, 'background3');
+    moon = game.add.sprite(800,0, 'moon');
 
     //  The platforms group contains the ground and the 2 ledges we can jump on
     platforms = game.add.group();
@@ -171,6 +173,7 @@ function update() {
     moveBackground(background6, 1);
     moveBackground(background4, 3);
     moveBackground(background5, 2);
+    moveBackground(moon, 2);
 
     manage_collisions (game);
     player.move(cursors);
