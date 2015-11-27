@@ -59,6 +59,20 @@ Player.prototype.collideWith = function(platforms) {
     game.physics.arcade.collide(this.player, platforms);
 };
 
+Player.prototype.collectStar  = function(self, star) {
+
+    // Removes the star from the screen
+    star.kill();
+
+    //  Add and update the score
+    score += 10;
+    scoreText.text = 'Score: ' + score;
+}
+
+Player.prototype.overlap  = function(stars) {
+    game.physics.arcade.overlap(this.player, stars, this.collectStar, null, null);
+}
+
 function Opponent () {
 
     this.value = game.add.sprite(32, game.world.height - 500, 'opponent');
@@ -164,7 +178,7 @@ function create() {
     for (var i = 0; i < 12; i++)
     {
         //  Create a star inside of the 'stars' group
-        var star = stars.create(i * 70, 0, 'star');
+        var star = stars.create(i * 70, 500, 'star');
 
         //  Let gravity do its thing
         star.body.gravity.y = 0;
@@ -195,19 +209,10 @@ function manage_collisions (game) {
     game.physics.arcade.collide(stars, platforms);
 
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
-    game.physics.arcade.overlap(player.player, stars, collectStar, null, this);
+    player.overlap(stars);
 }
 
-function collectStar (player, star) {
 
-    // Removes the star from the screen
-    star.kill();
-
-    //  Add and update the score
-    score += 10;
-    scoreText.text = 'Score: ' + score;
-
-}
 
 </script>
 
