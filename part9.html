@@ -19,8 +19,8 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create
 function preload() {
 
     game.load.image('background1', 'assets/background_layout_stars_one.png');
-		game.load.image('background2', 'assets/background_layout_stars_two.png');
-		game.load.image('background3', 'assets/background_layout_stars_three.png');
+	game.load.image('background2', 'assets/background_layout_stars_two.png');
+	game.load.image('background3', 'assets/background_layout_stars_three.png');
     game.load.image('ground', 'assets/platform.png');
     game.load.image('star', 'assets/star.png');
     game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
@@ -44,8 +44,8 @@ function create() {
 
     //  A simple background for our game
     game.add.sprite(0, 0, 'background1');
-		game.add.sprite(0, 0, 'background2');
-		game.add.sprite(0, 0, 'background3');
+	game.add.sprite(0, 0, 'background2');
+	game.add.sprite(0, 0, 'background3');
 
     //  The platforms group contains the ground and the 2 ledges we can jump on
     platforms = game.add.group();
@@ -143,11 +143,9 @@ function move(player,cursors){
 
      if (cursors.left.isDown || cursors.right.isDown ||cursors.up.isDown ||cursors.down.isDown){
         if (cursors.left.isDown) {
-            //  Move to the left
             player.body.velocity.x = -playerSpeed;
             player.animations.play('left');
         } if (cursors.right.isDown) {
-            //  Move to the right
             player.body.velocity.x = playerSpeed;
             player.animations.play('right');
         } if (cursors.up.isDown) {
