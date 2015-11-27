@@ -59,7 +59,7 @@ Player.prototype.collideWith = function(platforms) {
     game.physics.arcade.collide(this.player, platforms);
 };
 
-Player.prototype.collectStar  = function(self, star) {
+Player.prototype.collectStar  = function(player, star) {
 
     // Removes the star from the screen
     star.kill();
