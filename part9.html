@@ -117,13 +117,17 @@ function update() {
 
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     game.physics.arcade.overlap(player, stars, collectStar, null, this);
+  
+    move(player, cursors);
+}
 
-    //  Reset the players velocity (movement)
+function move(player,cursors){
+     //  Reset the players velocity (movement)
     player.body.velocity.x = 0;
     player.body.velocity.y = 0;
     var playerSpeed = 150;
 
-    if (cursors.left.isDown || cursors.right.isDown ||cursors.up.isDown ||cursors.down.isDown){
+     if (cursors.left.isDown || cursors.right.isDown ||cursors.up.isDown ||cursors.down.isDown){
         if (cursors.left.isDown) {
             //  Move to the left
             player.body.velocity.x = -playerSpeed;
