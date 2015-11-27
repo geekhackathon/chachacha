@@ -123,30 +123,24 @@ function update() {
     player.body.velocity.y = 0;
     var playerSpeed = 150;
 
-    if (cursors.left.isDown) {
-        //  Move to the left
-        player.body.velocity.x = -playerSpeed;
-        player.animations.play('left');
-    } else if (cursors.right.isDown) {
-        //  Move to the right
-        player.body.velocity.x = playerSpeed;
-        player.animations.play('right');
-    } else if (cursors.up.isDown) {
-        player.body.velocity.y = -playerSpeed;
-    } else if (cursors.down.isDown) {
-        player.body.velocity.y = playerSpeed;
-    }
-    else
-    {
-        //  Stand still
+    if (cursors.left.isDown || cursors.right.isDown ||cursors.up.isDown ||cursors.down.isDown){
+        if (cursors.left.isDown) {
+            //  Move to the left
+            player.body.velocity.x = -playerSpeed;
+            player.animations.play('left');
+        } if (cursors.right.isDown) {
+            //  Move to the right
+            player.body.velocity.x = playerSpeed;
+            player.animations.play('right');
+        } if (cursors.up.isDown) {
+            player.body.velocity.y = -playerSpeed;
+        } if (cursors.down.isDown) {
+            player.body.velocity.y = playerSpeed;
+        }
+    } else {
         player.animations.stop();
-
         player.frame = 4;
     }
-
-    //  Allow the player to jump if they are touching the ground.
-
-
 }
 
 function collectStar (player, star) {
