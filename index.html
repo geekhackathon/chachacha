@@ -2,19 +2,24 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8" />
-    <title>Phaser - Making your first game, part 9</title>
+    <title>Chachacha Game Project</title>
 	<script type="text/javascript" src="js/phaser.min.js"></script>
-    <style type="text/css">
-        body {
-            margin: 0;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="styles/style.css">
 </head>
 <body>
+<div class="container">
+  <div class="header">
+      <h1> Chachacha Game Project</h1>
+      <h3> using <a href="http://phaser.io">Phaser.io</a></h3>
+  </div>
+  <div id="game">
+  </div>
+</div>
 
 <script type="text/javascript">
-// 0-3 right 4-7 stop 8-11 left
-var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+
+var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
+
 
 function Player (key) {
 
@@ -29,7 +34,6 @@ function Player (key) {
     this.player.animations.add('left', [8, 9, 10, 11], 10, true);
     this.player.animations.add('right', [0, 1, 2, 3], 10, true);
 		this.player.animations.add('stay', [4, 5, 6, 7], 10, true);
-
     this.player._obj = this;
 
 }
@@ -77,8 +81,8 @@ Player.prototype.collectStar  = function(player, star) {
 
     // Removes the star from the screen
     star.kill();
-
     player._obj.increaseScore()
+
 }
 
 Player.prototype.increaseScore = function() {
@@ -108,7 +112,7 @@ function Opponent () {
     value.body.collideWorldBounds = true;
 
     value.animations.add('left', [0, 1, 2, 3], 10, true);
-		var muerte=value.animations.add('die', [12, 13, 14, 15], 10, false);
+		var muerte=value.animations.add('die', [4, 5, 6, 7], 10, false);
 		muerte.killOnComplete = true;
 		value.animations.add('right', [0, 1, 2, 3], 10, true);
     this.x = "x";
@@ -130,6 +134,7 @@ Opponent.prototype.move = function() {
     this.value.body.position.x += this.value.body.velocity.x/4;
     this.value.body.position.y += this.value.body.velocity.y/4;
     */
+    this.value.animations.play('left');
 };
 
 Opponent.prototype.dying = function() {
@@ -172,12 +177,13 @@ function preload() {
     game.load.image('background2', 'assets/background_layout_stars_two.png');
     game.load.image('background3', 'assets/background_layout_stars_three.png');
     game.load.image('ground', 'assets/platform.png');
+    game.load.image('ground2', 'assets/ground.png');
     game.load.image('star', 'assets/star.png');
     game.load.image('moon', 'assets/moon.png');
-    game.load.spritesheet('blueplayer', 'assets/blueplayer_12.png', 64, 32);
-    game.load.spritesheet('redplayer', 'assets/redplayer_12.png', 64, 32);
+    game.load.spritesheet('blueplayer', 'assets/blueplayer_16.png', 64, 32);
+    game.load.spritesheet('redplayer', 'assets/redplayer_16.png', 64, 32);
     game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
-    game.load.spritesheet('enemy1', 'assets/blueplayer_16.png', 64, 32);
+    game.load.spritesheet('enemy1', 'assets/enemy3.png', 32, 32);
 
 }
 
@@ -224,6 +230,8 @@ function create() {
     background5 = game.add.sprite(800, 0, 'background2');
     background6 = game.add.sprite(800, 0, 'background3');
     moon = game.add.sprite(1000, 500, 'moon');
+    ground2 = game.add.sprite(0,game.world.height-64, 'ground2');
+    ground3 = game.add.sprite(1600,game.world.height-64, 'ground2');
 
 
     //  The platforms group contains the ground and the 2 ledges we can jump on
@@ -233,13 +241,13 @@ function create() {
     platforms.enableBody = true;
 
     // Here we create the ground.
-    var ground = platforms.create(0, game.world.height - 64, 'ground');
+    //var ground = platforms.create(0, game.world.height - 64, 'ground');
 
     //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-    ground.scale.setTo(2, 2);
+    //ground.scale.setTo(2, 2);
 
     //  This stops it from falling away when you jump on it
-    ground.body.immovable = true;
+    //ground.body.immovable = true;
 
     //  Now let's create two ledges
     var ledge = platforms.create(400, 400, 'ground');
@@ -249,7 +257,7 @@ function create() {
     ledge.body.immovable = true;
 
     // The player and its settings
-    scores={player1: new Score(16,16), player2: new Score(600,16)};
+    scores={player1: new Score(16,16), player2: new Score(550,16)};
 
     player = new Player('redplayer');
     player.setScore(scores.player1);
@@ -265,7 +273,6 @@ function create() {
 		opponent7 = new Opponent();
     //  Finally some stars to collect
     stars = game.add.group();
-
 
 		opponents= game.add.group();
 		opponents.enableBody = true;
@@ -317,6 +324,8 @@ function update() {
     moveBackground(background6, 3);
     moveBackground(background4, 1);
     moveBackground(background5, 2);
+    moveGround(ground2, 1);
+    moveGround(ground3, 1);
     moonspawn(moon, 3)
 
     manage_collisions (game);
@@ -341,6 +350,15 @@ var moveBackground = function(background, speed) {
   } else {}
     background.x -= speed
 }
+
+var moveGround = function(ground, speed){
+  if (ground.x < -1600) {
+    ground.x = 1600;
+    ground.x -= speed;
+  } else {}
+    ground.x -= speed
+}
+
 
 function manage_collisions (game) {
     //  Collide the player and the stars with the platforms
