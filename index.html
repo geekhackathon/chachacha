@@ -62,7 +62,10 @@ Player.prototype.collideWith = function(platforms) {
 };
 
 Player.prototype.collideWithOpponent = function(player, opponent) {
-    opponent.kill();
+
+		opponent._obj.dying();
+
+    //opponent.kill();
 };
 
 Player.prototype.collectStar  = function(player, star) {
@@ -85,22 +88,23 @@ Player.prototype.overlap  = function(stars) {
 }
 
 function Opponent () {
+		var aleatorio = Math.floor((Math.random() * 495) + 1);
+    this.value = game.add.sprite(800, game.world.height - aleatorio, 'enemy1');
 
-    this.value = game.add.sprite(32, game.world.height - 500, 'enemy1');
-		
     var value = this.value;
 
     game.physics.arcade.enable(value);
     value.body.collideWorldBounds = true;
 
     value.animations.add('left', [0, 1, 2, 3], 10, true);
-    value.animations.add('right', [0, 1, 2, 3], 10, true);
-
+		var muerte=value.animations.add('die', [12, 13, 14, 15], 10, false);
+		muerte.killOnComplete = true;
+		value.animations.add('right', [0, 1, 2, 3], 10, true);
     this.x = "x";
     this.y = "y";
     this.axis = this.y;
 
-    this.value.body.velocity.x = 0;
+    this.value.body.velocity.x = 1530;
     this.value.body.velocity.y = 100;
 
     this.value.body.bounce.y = 0.2;
@@ -118,26 +122,26 @@ Opponent.prototype.move = function() {
 };
 
 Opponent.prototype.dying = function() {
-    value.animations.play("die");
+    this.value.animations.play("die");
 };
 
 Opponent.prototype.switch_direction = function (self) {
     "use strict";
     if (self._obj.axis ===  self._obj.x && self.body.velocity.x > 0) {
         self.body.velocity.y = -150;
-        self.body.velocity.x = 0;
+        self.body.velocity.x = 1530;
         self._obj.axis = self._obj.y;
     } else if (self._obj.axis ===  self._obj.x && self.body.velocity.x <= 0) {
         self.body.velocity.y = 150;
-        self.body.velocity.x = 0;
+        self.body.velocity.x = 1530;
         self._obj.axis = self._obj.y;
     } else if (self._obj.axis ===  self._obj.y && self.body.velocity.y <= 0) {
         self.body.velocity.y = 0;
-        self.body.velocity.x = 150;
+        self.body.velocity.x = 1530;
         self._obj.axis = self._obj.x;
     } else {
         self.body.velocity.y = 0;
-        self.body.velocity.x = -150;
+        self.body.velocity.x = -1530;
         self._obj.axis = self._obj.x;
     }
 };
@@ -162,7 +166,7 @@ function preload() {
     game.load.spritesheet('blueplayer', 'assets/BluePlayer.png', 64, 32);
     game.load.spritesheet('redplayer', 'assets/RedPlayer.png', 64, 32);
     game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
-    game.load.spritesheet('enemy1', 'assets/enemy1.png', 32, 32);
+    game.load.spritesheet('enemy1', 'assets/blueplayer_16.png', 64, 32);
 
 }
 
@@ -217,12 +221,24 @@ function create() {
     player = new Player('redplayer');
 		player1 = new Player('blueplayer');
     opponent1 = new Opponent();
+		opponent2 = new Opponent();
+		opponent3 = new Opponent();
+		opponent4 = new Opponent();
+		opponent5 = new Opponent();
+		opponent6 = new Opponent();
+		opponent7 = new Opponent();
     //  Finally some stars to collect
     stars = game.add.group();
 
 		opponents= game.add.group();
 		opponents.enableBody = true;
 		opponents.add(opponent1.value);
+		opponents.add(opponent2.value);
+		opponents.add(opponent3.value);
+		opponents.add(opponent4.value);
+		opponents.add(opponent5.value);
+		opponents.add(opponent6.value);
+		opponents.add(opponent7.value);
     //  We will enable physics for any star that is created in this group
     stars.enableBody = true;
 
@@ -281,8 +297,9 @@ var moveBackground = function(background, speed) {
 function manage_collisions (game) {
     //  Collide the player and the stars with the platforms
     player.collideWith(platforms);
-    opponent1.collideWith(platforms);
 
+    opponent1.collideWith(platforms);
+		game.physics.arcade.collide(opponents, platforms);
     game.physics.arcade.collide(stars, platforms);
 
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
