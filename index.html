@@ -71,7 +71,12 @@ Player.prototype.collideWith = function(platforms) {
 Player.prototype.collideWithOpponent = function(player, opponent) {
 
 		opponent._obj.dying();
-    player._obj.decreaseScore();
+
+    try{
+      player._obj.decreaseScore();
+    } catch (Won){
+      alert("player " + player._obj.name()+ " has lost");
+    }  
 
     //opponent.kill();
 };
@@ -82,7 +87,11 @@ Player.prototype.collectStar  = function(player, star) {
 
     // Removes the star from the screen
     star.kill();
-    player._obj.increaseScore();
+    try{
+      player._obj.increaseScore();
+    } catch (Won){
+      alert("player " + player._obj.name()+ " has won");
+    }  
     createStar(stars);
 
 }
@@ -97,6 +106,9 @@ Player.prototype.decreaseScore = function() {
 
 Player.prototype.setScore = function(score) {
     this.score = score;
+};
+Player.prototype.name = function() {
+    return this.score.name;
 };
 
 Player.prototype.overlap2  = function(opponents) {
@@ -205,11 +217,17 @@ function Score(x, y, name){
 Score.prototype.increase = function() {
     this.value += 10;
     this.scoreText.text = this.show(this.value);
+    if(this.value >= 10){
+      throw Won();
+    }
 };
 
 Score.prototype.decrease = function() {
     this.value -= 3;
     this.scoreText.text = this.show(this.value);
+    if(this.value <= -100){
+      throw Lost();
+    }
 };
 
 Score.prototype.show = function(score) {
