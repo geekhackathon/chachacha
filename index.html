@@ -170,7 +170,6 @@ var player;
 var opponent1;
 var platforms;
 var cursors;
-var wasd;
 var blueplayer;
 var redplayer;
 var opponents;
@@ -244,16 +243,20 @@ function create() {
     //  The score
     scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#fff' });
 
-    //  Our controls.
-    cursors = game.input.keyboard.createCursorKeys();
+    cursors = createControls();
 
-    wasd = {
-                up: game.input.keyboard.addKey(Phaser.Keyboard.W),
-                down: game.input.keyboard.addKey(Phaser.Keyboard.S),
-                left: game.input.keyboard.addKey(Phaser.Keyboard.A),
-                right: game.input.keyboard.addKey(Phaser.Keyboard.D)
-            };
+}
 
+function createControls(){
+	return {
+		arrows: game.input.keyboard.createCursorKeys(),
+	    wasd: {
+	                up: game.input.keyboard.addKey(Phaser.Keyboard.W),
+	                down: game.input.keyboard.addKey(Phaser.Keyboard.S),
+	                left: game.input.keyboard.addKey(Phaser.Keyboard.A),
+	                right: game.input.keyboard.addKey(Phaser.Keyboard.D)
+	            }
+	};
 }
 
 function update() {
@@ -266,8 +269,8 @@ function update() {
     moonspawn(moon, 3)
 
     manage_collisions (game);
-    player.move(cursors);
-    player1.move(wasd);
+    player.move(cursors.arrows);
+    player1.move(cursors.wasd);
     opponent1.move();
 
 }
