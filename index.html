@@ -34,6 +34,8 @@ function Player (key) {
     this.player.animations.add('left', [8, 9, 10, 11], 10, true);
     this.player.animations.add('right', [0, 1, 2, 3], 10, true);
 		this.player.animations.add('stay', [4, 5, 6, 7], 10, true);
+    this.player._obj = this;
+
 }
 
 Player.prototype.move = function(cursors) {
@@ -79,9 +81,17 @@ Player.prototype.collectStar  = function(player, star) {
 
     // Removes the star from the screen
     star.kill();
+    player._obj.increaseScore()
 
-    scores.player1.increase()
 }
+
+Player.prototype.increaseScore = function() {
+    this.score.increase();
+};
+
+Player.prototype.setScore = function(score) {
+    this.score = score;
+};
 
 Player.prototype.overlap2  = function(opponents) {
     game.physics.arcade.overlap(this.player, opponents, this.collideWithOpponent, null, null);
@@ -102,7 +112,7 @@ function Opponent () {
     value.body.collideWorldBounds = true;
 
     value.animations.add('left', [0, 1, 2, 3], 10, true);
-		var muerte=value.animations.add('die', [12, 13, 14, 15], 10, false);
+		var muerte=value.animations.add('die', [4, 5, 6, 7], 10, false);
 		muerte.killOnComplete = true;
 		value.animations.add('right', [0, 1, 2, 3], 10, true);
     this.x = "x";
@@ -112,8 +122,8 @@ function Opponent () {
     this.value.body.velocity.x = 1530;
     this.value.body.velocity.y = 100;
 
-    this.value.body.bounce.y = 0.2;
-    this.value.body.bounce.x = 0.2;
+    this.value.body.bounce.y = 0.5;
+    this.value.body.bounce.x = 0.5;
 
     this.value._obj = this;
 
@@ -124,6 +134,7 @@ Opponent.prototype.move = function() {
     this.value.body.position.x += this.value.body.velocity.x/4;
     this.value.body.position.y += this.value.body.velocity.y/4;
     */
+    this.value.animations.play('left');
 };
 
 Opponent.prototype.dying = function() {
@@ -172,7 +183,7 @@ function preload() {
     game.load.spritesheet('blueplayer', 'assets/blueplayer_16.png', 64, 32);
     game.load.spritesheet('redplayer', 'assets/redplayer_16.png', 64, 32);
     game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
-    game.load.spritesheet('enemy1', 'assets/blueplayer_16.png', 64, 32);
+    game.load.spritesheet('enemy1', 'assets/enemy3.png', 32, 32);
 
 }
 
@@ -246,8 +257,12 @@ function create() {
     ledge.body.immovable = true;
 
     // The player and its settings
+    scores={player1: new Score(16,16), player2: new Score(550,16)};
+
     player = new Player('redplayer');
+    player.setScore(scores.player1);
 		player1 = new Player('blueplayer');
+    player1.setScore(scores.player2);
 
     opponent1 = new Opponent();
 		opponent2 = new Opponent();
@@ -287,7 +302,6 @@ function create() {
 
     cursors = createControls();
 
-	scores={player1: new Score(16,16), player2: new Score(16,500)};
 
 }
 
