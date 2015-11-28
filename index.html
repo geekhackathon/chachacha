@@ -29,6 +29,8 @@ function Player (key) {
     this.player.animations.add('left', [12, 13, 14, 15], 10, true);
     this.player.animations.add('right', [0, 1, 2, 3], 10, true);
 		this.player.animations.add('stay', [8, 9, 10, 11], 10, true);
+
+    this.player._obj = this;
 }
 
 Player.prototype.move = function(cursors) {
@@ -74,10 +76,17 @@ Player.prototype.collectStar  = function(player, star) {
 
     // Removes the star from the screen
     star.kill();
-
     
-    scores.player1.increase()
+    player._obj.increaseScore()
 }
+
+Player.prototype.increaseScore = function() {
+    this.score.increase();
+};
+
+Player.prototype.setScore = function(score) {
+    this.score = score;
+};
 
 Player.prototype.overlap2  = function(opponents) {
     game.physics.arcade.overlap(this.player, opponents, this.collideWithOpponent, null, null);
@@ -239,8 +248,12 @@ function create() {
     ledge.body.immovable = true;
 
     // The player and its settings
+    scores={player1: new Score(16,16), player2: new Score(600,16)};
+
     player = new Player('redplayer');
+    player.setScore(scores.player1);
 		player1 = new Player('blueplayer');
+    player1.setScore(scores.player2);
 
     opponent1 = new Opponent();
 		opponent2 = new Opponent();
@@ -281,7 +294,6 @@ function create() {
 
     cursors = createControls();
 
-	scores={player1: new Score(16,16), player2: new Score(16,500)};
 
 }
 
