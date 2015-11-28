@@ -26,9 +26,9 @@ function Player (key) {
     this.player.body.gravity.y = 0;
     this.player.body.collideWorldBounds = true;
 
-    this.player.animations.add('left', [12, 13, 14, 15], 10, true);
+    this.player.animations.add('left', [8, 9, 10, 11], 10, true);
     this.player.animations.add('right', [0, 1, 2, 3], 10, true);
-		this.player.animations.add('stay', [8, 9, 10, 11], 10, true);
+		this.player.animations.add('stay', [4, 5, 6, 7], 10, true);
 }
 
 Player.prototype.move = function(cursors) {
@@ -165,8 +165,8 @@ function preload() {
     game.load.image('ground', 'assets/platform.png');
     game.load.image('star', 'assets/star.png');
     game.load.image('moon', 'assets/moon.png');
-    game.load.spritesheet('blueplayer', 'assets/BluePlayer.png', 64, 32);
-    game.load.spritesheet('redplayer', 'assets/RedPlayer.png', 64, 32);
+    game.load.spritesheet('blueplayer', 'assets/blueplayer_12.png', 64, 32);
+    game.load.spritesheet('redplayer', 'assets/redplayer_12.png', 64, 32);
     game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
     game.load.spritesheet('enemy1', 'assets/blueplayer_16.png', 64, 32);
 
