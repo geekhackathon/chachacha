@@ -15,6 +15,7 @@
 
   <div id="menu" class="screen">
   hola hola
+  <a onclick="startGame()"> Empezar juego</a>
   </div>
   <div id="game" class="screen">
   </div>
@@ -23,8 +24,17 @@
 </div>
 
 <script type="text/javascript">
+var game;
+var started = false;
+function startGame(){
+  if(!started){
+    document.location = '#game';
+   game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
+   started = true;
+  }
+}
 
-var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
+
 
 
 function Player (key, x, y) {
