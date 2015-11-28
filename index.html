@@ -29,6 +29,9 @@ function Player (key) {
     this.player.animations.add('left', [8, 9, 10, 11], 10, true);
     this.player.animations.add('right', [0, 1, 2, 3], 10, true);
 		this.player.animations.add('stay', [4, 5, 6, 7], 10, true);
+
+    this.player._obj = this;
+
 }
 
 Player.prototype.move = function(cursors) {
@@ -75,10 +78,16 @@ Player.prototype.collectStar  = function(player, star) {
     // Removes the star from the screen
     star.kill();
 
-    //  Add and update the score
-    score += 10;
-    scoreText.text = 'Score: ' + score;
+    player._obj.increaseScore()
 }
+
+Player.prototype.increaseScore = function() {
+    this.score.increase();
+};
+
+Player.prototype.setScore = function(score) {
+    this.score = score;
+};
 
 Player.prototype.overlap2  = function(opponents) {
     game.physics.arcade.overlap(this.player, opponents, this.collideWithOpponent, null, null);
@@ -172,6 +181,26 @@ function preload() {
 
 }
 
+function Score(x, y){
+	this.value = 0;
+	this.text = "";
+	this.at(x,y);
+}
+
+Score.prototype.increase = function() {
+    this.value += 10;
+    this.scoreText.text = this.show(this.value);
+};
+
+
+Score.prototype.show = function(score) {
+    return 'Score: ' + score;
+};
+
+Score.prototype.at = function(x, y) {
+    this.scoreText = game.add.text(x, y, this.show(0), { fontSize: '32px', fill: '#fff' });
+};
+
 var player;
 var player1;
 var opponent1;
@@ -181,8 +210,7 @@ var blueplayer;
 var redplayer;
 var opponents;
 var stars;
-var score = 0;
-var scoreText;
+var scores;
 
 function create() {
 
@@ -221,8 +249,12 @@ function create() {
     ledge.body.immovable = true;
 
     // The player and its settings
+    scores={player1: new Score(16,16), player2: new Score(600,16)};
+
     player = new Player('redplayer');
+    player.setScore(scores.player1);
 		player1 = new Player('blueplayer');
+    player1.setScore(scores.player2);
 
     opponent1 = new Opponent();
 		opponent2 = new Opponent();
@@ -261,10 +293,8 @@ function create() {
         star.body.bounce.y = 0.7 + Math.random() * 0.2;
     }
 
-    //  The score
-    scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#fff' });
-
     cursors = createControls();
+
 
 }
 
