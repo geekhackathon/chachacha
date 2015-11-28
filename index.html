@@ -70,9 +70,8 @@ Player.prototype.collectStar  = function(player, star) {
     // Removes the star from the screen
     star.kill();
 
-    //  Add and update the score
-    score += 10;
-    scoreText.text = 'Score: ' + score;
+    
+    scores.player1.increase()
 }
 
 Player.prototype.overlap2  = function(opponents) {
@@ -166,6 +165,26 @@ function preload() {
 
 }
 
+function Score(x, y){
+	this.value = 0;
+	this.text = "";
+	this.at(x,y);
+}
+
+Score.prototype.increase = function() {
+    this.value += 10;
+    this.scoreText.text = this.show(this.value);
+};
+
+
+Score.prototype.show = function(score) {
+    return 'Score: ' + score;
+};
+
+Score.prototype.at = function(x, y) {
+    this.scoreText = game.add.text(x, y, this.show(0), { fontSize: '32px', fill: '#fff' });
+};
+
 var player;
 var opponent1;
 var platforms;
@@ -174,8 +193,7 @@ var blueplayer;
 var redplayer;
 var opponents;
 var stars;
-var score = 0;
-var scoreText;
+var scores;
 
 function create() {
 
@@ -240,10 +258,9 @@ function create() {
         star.body.bounce.y = 0.7 + Math.random() * 0.2;
     }
 
-    //  The score
-    scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#fff' });
-
     cursors = createControls();
+
+	scores={player1: new Score(16,16), player2: new Score(16,500)};
 
 }
 
