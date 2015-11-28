@@ -12,7 +12,13 @@
       <h1> Chachacha Game Project</h1>
       <h3> using <a href="http://phaser.io">Phaser.io</a></h3>
   </div>
-  <div id="game">
+
+  <div id="menu" class="screen">
+  hola hola
+  </div>
+  <div id="game" class="screen">
+  </div>
+  <div id="end" class="screen">
   </div>
 </div>
 
@@ -69,16 +75,8 @@ Player.prototype.collideWith = function(platforms) {
 };
 
 Player.prototype.collideWithOpponent = function(player, opponent) {
-
 		opponent._obj.dying();
-
-    try{
-      player._obj.decreaseScore();
-    } catch (Won){
-      alert("player " + player._obj.name()+ " has lost");
-    }  
-
-    //opponent.kill();
+    player._obj.decreaseScore();
 };
 
 
@@ -90,7 +88,9 @@ Player.prototype.collectStar  = function(player, star) {
     try{
       player._obj.increaseScore();
     } catch (Won){
-      alert("player " + player._obj.name()+ " has won");
+      document.getElementById('end').innerHTML  = ("player " + player._obj.name()+ " has won");
+      document.location = '#end';
+      document.getElementById('game').innerHTML  = '';
     }  
     createStar(stars);
 

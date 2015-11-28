@@ -25,3 +25,7 @@ a{
   color: #F2BE41;
   text-decoration: none;
 }
+
+div.screen {
+  height : 1200px;
+}
