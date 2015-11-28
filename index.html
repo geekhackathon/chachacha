@@ -121,8 +121,9 @@ Player.prototype.overlap  = function(stars) {
 }
 
 function Opponent () {
-		var aleatorio = Math.floor((Math.random() * 495) + 1);
-    this.value = game.add.sprite(800, game.world.height - aleatorio, 'enemy1');
+    var x = Math.floor((Math.random() * 495) + 1);
+		var y = Math.floor((Math.random() * 495) + 1);
+    this.value = game.add.sprite( game.world.width - x, game.world.height - y, 'enemy1');
 
     var value = this.value;
 
@@ -137,8 +138,8 @@ function Opponent () {
     this.y = "y";
     this.axis = this.y;
 
-    this.value.body.velocity.x = 1530;
-    this.value.body.velocity.y = 100;
+    this.value.body.velocity.x = Math.random()*600;
+    this.value.body.velocity.y = Math.random()*600;
 
     this.value.body.bounce.y = 0.5;
     this.value.body.bounce.x = 0.5;
@@ -214,10 +215,13 @@ function Score(x, y, name){
 	this.at(x,y);
 }
 
+var winningScore = 100;
+var losingScore = -100;
+
 Score.prototype.increase = function() {
     this.value += 10;
     this.scoreText.text = this.show(this.value);
-    if(this.value >= 10){
+    if(this.value >= winningScore){
       throw Won();
     }
 };
@@ -225,7 +229,7 @@ Score.prototype.increase = function() {
 Score.prototype.decrease = function() {
     this.value -= 3;
     this.scoreText.text = this.show(this.value);
-    if(this.value <= -100){
+    if(this.value <= losingScore){
       throw Lost();
     }
 };
