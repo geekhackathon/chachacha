@@ -68,6 +68,8 @@ Player.prototype.collideWithOpponent = function(player, opponent) {
     //opponent.kill();
 };
 
+
+
 Player.prototype.collectStar  = function(player, star) {
 
     // Removes the star from the screen
@@ -171,6 +173,7 @@ function preload() {
 }
 
 var player;
+var player1;
 var opponent1;
 var platforms;
 var cursors;
@@ -219,7 +222,7 @@ function create() {
 
     // The player and its settings
     player = new Player('redplayer');
-	player1 = new Player('blueplayer');
+		player1 = new Player('blueplayer');
 
     opponent1 = new Opponent();
 		opponent2 = new Opponent();
@@ -312,6 +315,7 @@ var moveBackground = function(background, speed) {
 function manage_collisions (game) {
     //  Collide the player and the stars with the platforms
     player.collideWith(platforms);
+		player1.collideWith(platforms);
 
     opponent1.collideWith(platforms);
 		game.physics.arcade.collide(opponents, platforms);
@@ -321,6 +325,9 @@ function manage_collisions (game) {
     player.overlap(stars);
     //opponent1.overlap(platforms);
 		player.overlap2(opponents);
+		player1.overlap(stars);
+		//opponent1.overlap(platforms);
+		player1.overlap2(opponents);
 }
 
 
