@@ -2,19 +2,23 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8" />
-    <title>Phaser - Making your first game, part 9</title>
+    <title>Chachacha Game Project</title>
 	<script type="text/javascript" src="js/phaser.min.js"></script>
-    <style type="text/css">
-        body {
-            margin: 0;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="styles/style.css">
 </head>
 <body>
+<div class="container">
+  <div class="header">
+      <h1> Chachacha Game Project</h1>
+      <h3> using <a href="http://phaser.io">Phaser.io</a></h3>
+  </div>
+  <div class="game">
+  </div>
+</div>
 
 <script type="text/javascript">
 
-var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(800, 600, Phaser.AUTO, '.game', { preload: preload, create: create, update: update });
 
 function Player () {
 
