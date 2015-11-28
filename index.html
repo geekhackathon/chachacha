@@ -170,6 +170,7 @@ var player;
 var opponent1;
 var platforms;
 var cursors;
+var wasd;
 var blueplayer;
 var redplayer;
 var opponents;
@@ -215,14 +216,15 @@ function create() {
 
     // The player and its settings
     player = new Player('redplayer');
-		player1 = new Player('blueplayer');
+	player1 = new Player('blueplayer');
+
     opponent1 = new Opponent();
     //  Finally some stars to collect
     stars = game.add.group();
 
-		opponents= game.add.group();
-		opponents.enableBody = true;
-		opponents.add(opponent1.value);
+	opponents= game.add.group();
+	opponents.enableBody = true;
+	opponents.add(opponent1.value);
     //  We will enable physics for any star that is created in this group
     stars.enableBody = true;
 
@@ -245,6 +247,13 @@ function create() {
     //  Our controls.
     cursors = game.input.keyboard.createCursorKeys();
 
+    wasd = {
+                up: game.input.keyboard.addKey(Phaser.Keyboard.W),
+                down: game.input.keyboard.addKey(Phaser.Keyboard.S),
+                left: game.input.keyboard.addKey(Phaser.Keyboard.A),
+                right: game.input.keyboard.addKey(Phaser.Keyboard.D)
+            };
+
 }
 
 function update() {
@@ -258,6 +267,7 @@ function update() {
 
     manage_collisions (game);
     player.move(cursors);
+    player1.move(wasd);
     opponent1.move();
 
 }
