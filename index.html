@@ -13,12 +13,12 @@
 <body>
 
 <script type="text/javascript">
-
+// 0-3 right 4-7 stop 8-11 left
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
-function Player () {
+function Player (key) {
 
-    this.player = game.add.sprite(32, game.world.height - 150, 'dude');
+    this.player = game.add.sprite(32, game.world.height - 150, key);
 
     game.physics.arcade.enable(this.player);
 
@@ -26,13 +26,14 @@ function Player () {
     this.player.body.gravity.y = 0;
     this.player.body.collideWorldBounds = true;
 
-    this.player.animations.add('left', [0, 1, 2, 3], 10, true);
-    this.player.animations.add('right', [5, 6, 7, 8], 10, true);
+    this.player.animations.add('left', [12, 13, 14, 15], 10, true);
+    this.player.animations.add('right', [0, 1, 2, 3], 10, true);
+		this.player.animations.add('stay', [8, 9, 10, 11], 10, true);
 }
 
 Player.prototype.move = function(cursors) {
     var player = this.player;
-    
+
     player.body.velocity.x = 0;
     player.body.velocity.y = 0;
     var playerSpeed = 150;
@@ -50,13 +51,18 @@ Player.prototype.move = function(cursors) {
             player.body.velocity.y = playerSpeed;
         }
     } else {
-        player.animations.stop();
-        player.frame = 4;
+        player.animations.play('stay');
+
+      //  player.frame = 4;
     }
 };
 
 Player.prototype.collideWith = function(platforms) {
     game.physics.arcade.collide(this.player, platforms);
+};
+
+Player.prototype.collideWithOpponent = function(player, opponent) {
+    opponent.kill();
 };
 
 Player.prototype.collectStar  = function(player, star) {
@@ -69,20 +75,26 @@ Player.prototype.collectStar  = function(player, star) {
     scoreText.text = 'Score: ' + score;
 }
 
+Player.prototype.overlap2  = function(opponents) {
+    game.physics.arcade.overlap(this.player, opponents, this.collideWithOpponent, null, null);
+}
+
+
 Player.prototype.overlap  = function(stars) {
     game.physics.arcade.overlap(this.player, stars, this.collectStar, null, null);
 }
 
 function Opponent () {
 
-    this.value = game.add.sprite(32, game.world.height - 500, 'redplayer');
+    this.value = game.add.sprite(32, game.world.height - 500, 'enemy1');
+		
     var value = this.value;
 
     game.physics.arcade.enable(value);
     value.body.collideWorldBounds = true;
 
     value.animations.add('left', [0, 1, 2, 3], 10, true);
-    value.animations.add('right', [5, 6, 7, 8], 10, true);
+    value.animations.add('right', [0, 1, 2, 3], 10, true);
 
     this.x = "x";
     this.y = "y";
@@ -103,6 +115,10 @@ Opponent.prototype.move = function() {
     this.value.body.position.x += this.value.body.velocity.x/4;
     this.value.body.position.y += this.value.body.velocity.y/4;
     */
+};
+
+Opponent.prototype.dying = function() {
+    value.animations.play("die");
 };
 
 Opponent.prototype.switch_direction = function (self) {
@@ -146,7 +162,7 @@ function preload() {
     game.load.spritesheet('blueplayer', 'assets/BluePlayer.png', 64, 32);
     game.load.spritesheet('redplayer', 'assets/RedPlayer.png', 64, 32);
     game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
-    game.load.spritesheet('opponent', 'assets/opponent.png', 32, 48);
+    game.load.spritesheet('enemy1', 'assets/enemy1.png', 32, 32);
 
 }
 
@@ -156,7 +172,7 @@ var platforms;
 var cursors;
 var blueplayer;
 var redplayer;
-
+var opponents;
 var stars;
 var score = 0;
 var scoreText;
@@ -173,8 +189,7 @@ function create() {
     background5 = game.add.sprite(800, 0, 'background2');
     background6 = game.add.sprite(800, 0, 'background3');
     moon = game.add.sprite(1000, 500, 'moon');
-    blueplayer = game.add.sprite(100, 300, 'blueplayer');
-    redplayer = game.add.sprite(150, 300, 'redplayer');
+
 
     //  The platforms group contains the ground and the 2 ledges we can jump on
     platforms = game.add.group();
@@ -199,12 +214,16 @@ function create() {
     ledge.body.immovable = true;
 
     // The player and its settings
-    player = new Player('dude');
+    player = new Player('redplayer');
+	player1 = new Player('blueplayer');
 
     opponent1 = new Opponent();
     //  Finally some stars to collect
     stars = game.add.group();
 
+	opponents= game.add.group();
+	opponents.enableBody = true;
+	opponents.add(opponent1.value);
     //  We will enable physics for any star that is created in this group
     stars.enableBody = true;
 
@@ -224,9 +243,20 @@ function create() {
     //  The score
     scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#fff' });
 
-    //  Our controls.
-    cursors = game.input.keyboard.createCursorKeys();
+    cursors = createControls();
 
+}
+
+function createControls(){
+	return {
+		arrows: game.input.keyboard.createCursorKeys(),
+	    wasd: {
+	                up: game.input.keyboard.addKey(Phaser.Keyboard.W),
+	                down: game.input.keyboard.addKey(Phaser.Keyboard.S),
+	                left: game.input.keyboard.addKey(Phaser.Keyboard.A),
+	                right: game.input.keyboard.addKey(Phaser.Keyboard.D)
+	            }
+	};
 }
 
 function update() {
@@ -239,7 +269,8 @@ function update() {
     moonspawn(moon, 3)
 
     manage_collisions (game);
-    player.move(cursors);
+    player.move(cursors.arrows);
+    player1.move(cursors.wasd);
     opponent1.move();
 
 }
@@ -270,6 +301,7 @@ function manage_collisions (game) {
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
     player.overlap(stars);
     //opponent1.overlap(platforms);
+		player.overlap2(opponents);
 }
 
 
