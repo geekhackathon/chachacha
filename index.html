@@ -71,6 +71,7 @@ Player.prototype.collideWith = function(platforms) {
 Player.prototype.collideWithOpponent = function(player, opponent) {
 
 		opponent._obj.dying();
+    player._obj.decreaseScore();
 
     //opponent.kill();
 };
@@ -81,12 +82,17 @@ Player.prototype.collectStar  = function(player, star) {
 
     // Removes the star from the screen
     star.kill();
-    player._obj.increaseScore()
+    player._obj.increaseScore();
+    createStar(stars);
 
 }
 
 Player.prototype.increaseScore = function() {
     this.score.increase();
+};
+
+Player.prototype.decreaseScore = function() {
+    this.score.decrease();
 };
 
 Player.prototype.setScore = function(score) {
@@ -112,8 +118,8 @@ function Opponent () {
     value.body.collideWorldBounds = true;
 
     value.animations.add('left', [0, 1, 2, 3], 10, true);
-		var muerte=value.animations.add('die', [4, 5, 6, 7], 10, false);
-		muerte.killOnComplete = true;
+		//var muerte=value.animations.add('die', [4, 5, 6, 7], 10, false);
+		//muerte.killOnComplete = true;
 		value.animations.add('right', [0, 1, 2, 3], 10, true);
     this.x = "x";
     this.y = "y";
@@ -199,6 +205,10 @@ Score.prototype.increase = function() {
     this.scoreText.text = this.show(this.value);
 };
 
+Score.prototype.decrease = function() {
+    this.value -= 3;
+    this.scoreText.text = this.show(this.value);
+};
 
 Score.prototype.show = function(score) {
     return this.name + '\'s score: ' + score;
@@ -289,21 +299,24 @@ function create() {
     stars.enableBody = true;
 
     //  Here we'll create 12 of them evenly spaced apart
-    for (var i = 0; i < 12; i++)
-    {
-        //  Create a star inside of the 'stars' group
-        var star = stars.create(i * 70, 500, 'star');
+    for (var i = 0; i < 30; i++) {
+        createStar(stars);
+    }
+
+    cursors = createControls();
+
+
+}
+
+function createStar(stars){
+  //  Create a star inside of the 'stars' group
+        var star = stars.create(Math.random()*800, Math.random()*600, 'star');
 
         //  Let gravity do its thing
         star.body.gravity.y = 0;
 
         //  This just gives each star a slightly random bounce value
         star.body.bounce.y = 0.7 + Math.random() * 0.2;
-    }
-
-    cursors = createControls();
-
-
 }
 
 function createControls(){
