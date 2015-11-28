@@ -219,7 +219,8 @@ function create() {
 
     // The player and its settings
     player = new Player('redplayer');
-		player1 = new Player('blueplayer');
+	player1 = new Player('blueplayer');
+
     opponent1 = new Opponent();
 		opponent2 = new Opponent();
 		opponent3 = new Opponent();
@@ -230,6 +231,7 @@ function create() {
     //  Finally some stars to collect
     stars = game.add.group();
 
+
 		opponents= game.add.group();
 		opponents.enableBody = true;
 		opponents.add(opponent1.value);
@@ -239,6 +241,7 @@ function create() {
 		opponents.add(opponent5.value);
 		opponents.add(opponent6.value);
 		opponents.add(opponent7.value);
+
     //  We will enable physics for any star that is created in this group
     stars.enableBody = true;
 
@@ -258,9 +261,20 @@ function create() {
     //  The score
     scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#fff' });
 
-    //  Our controls.
-    cursors = game.input.keyboard.createCursorKeys();
+    cursors = createControls();
 
+}
+
+function createControls(){
+	return {
+		arrows: game.input.keyboard.createCursorKeys(),
+	    wasd: {
+	                up: game.input.keyboard.addKey(Phaser.Keyboard.W),
+	                down: game.input.keyboard.addKey(Phaser.Keyboard.S),
+	                left: game.input.keyboard.addKey(Phaser.Keyboard.A),
+	                right: game.input.keyboard.addKey(Phaser.Keyboard.D)
+	            }
+	};
 }
 
 function update() {
@@ -273,7 +287,8 @@ function update() {
     moonspawn(moon, 3)
 
     manage_collisions (game);
-    player.move(cursors);
+    player.move(cursors.arrows);
+    player1.move(cursors.wasd);
     opponent1.move();
 
 }
