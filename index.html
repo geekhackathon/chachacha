@@ -97,7 +97,8 @@ Player.prototype.collectStar  = function(player, star) {
     try{
       player._obj.increaseScore();
     } catch (Won){
-      document.getElementById('end').innerHTML  = ("player " + player._obj.name()+ " has won");
+      var name = player._obj.name()
+      document.getElementById('end').innerHTML  = '<img src="assets/'+name+'wins.jpg"> </img>';
       document.getElementById('game').remove();
     }  
     createStar(stars);
