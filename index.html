@@ -202,6 +202,8 @@ function preload() {
     game.load.spritesheet('redplayer', 'assets/redplayer_16.png', 64, 32);
     game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
     game.load.spritesheet('enemy1', 'assets/enemy3.png', 32, 32);
+    game.load.audio('music', ['assets/music.mp3', 'assets/music.ogg']);
+    game.load.audio('chachacha', ['assets/chachacha.mp3', 'assets/chachacha.ogg']);
 
 }
 
@@ -246,12 +248,14 @@ var redplayer;
 var opponents;
 var stars;
 var scores;
+var music;
+var chachacha;
 
 function create() {
 
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
-
+    music = game.sound.play('music');
     background1 = game.add.sprite(0, 0, 'background1');
     background2 = game.add.sprite(0, 0, 'background2');
     background3 = game.add.sprite(0, 0, 'background3');
@@ -279,11 +283,11 @@ function create() {
     //ground.body.immovable = true;
 
     //  Now let's create two ledges
-    var ledge = platforms.create(400, 400, 'ground');
-    ledge.body.immovable = true;
+    // var ledge = platforms.create(400, 400, 'ground');
+    // ledge.body.immovable = true;
 
-    ledge = platforms.create(-150, 250, 'ground');
-    ledge.body.immovable = true;
+    // ledge = platforms.create(-150, 250, 'ground');
+    // ledge.body.immovable = true;
 
     // The player and its settings
     scores={player1: new Score(16,16, 'red'), player2: new Score(550,16, 'blue')};
