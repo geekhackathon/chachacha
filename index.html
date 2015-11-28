@@ -215,8 +215,7 @@ function Score(x, y, name){
 	this.at(x,y);
 }
 
-var winningScore = 100;
-var losingScore = -100;
+var winningScore = 500;
 
 Score.prototype.increase = function() {
     this.value += 10;
@@ -229,9 +228,6 @@ Score.prototype.increase = function() {
 Score.prototype.decrease = function() {
     this.value -= 3;
     this.scoreText.text = this.show(this.value);
-    if(this.value <= losingScore){
-      throw Lost();
-    }
 };
 
 Score.prototype.show = function(score) {
