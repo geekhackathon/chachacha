@@ -28,7 +28,7 @@ var game;
 var started = false;
 function startGame(){
   if(!started){
-    document.location = '#game';
+    document.getElementById('menu').remove();
    game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
    started = true;
   }
@@ -99,8 +99,7 @@ Player.prototype.collectStar  = function(player, star) {
       player._obj.increaseScore();
     } catch (Won){
       document.getElementById('end').innerHTML  = ("player " + player._obj.name()+ " has won");
-      document.location = '#end';
-      document.getElementById('game').innerHTML  = '';
+      document.getElementById('game').remove();
     }  
     createStar(stars);
 
