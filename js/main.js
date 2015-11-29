@@ -174,8 +174,9 @@ function createPlayers(){
 
 function createOpponents(){
 	var opponents = game.add.group();
+	var numberOfOpponents = 7;
 	opponents.enableBody = true;
-	for (var i = 0; i < 7; i++) {
+	for (var i = 0; i < numberOfOpponents; i++) {
 		opponents.add(new Opponent().value);
 	}
 	return opponents;
