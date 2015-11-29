@@ -8,6 +8,16 @@ function startGame(){
   }
 }
 
+function changePhaseTo(id, payload){
+
+  if (id === 'end') {
+    var name = payload.name;
+    document.getElementById('end').innerHTML  = '<img src="assets/'+name+'wins.jpg"> </img>';
+    document.getElementById('game').remove();
+  };
+
+}
+
 
 
 
@@ -68,9 +78,8 @@ Player.prototype.collectStar  = function(player, star) {
     try{
       player._obj.increaseScore();
     } catch (Won){
-      var name = player._obj.name()
-      document.getElementById('end').innerHTML  = '<img src="assets/'+name+'wins.jpg"> </img>';
-      document.getElementById('game').remove();
+      var name = player._obj.name();
+      changePhaseTo('end', {name: name});
     }  
     createStar(stars);
 
