@@ -386,8 +386,9 @@ var moveBackground = function(background, speed) {
 }
 
 var moveGround = function(ground, speed){
-  if (ground.x < -1600) {
-    ground.x = 1600;
+  var treshold = 2*game.width;
+  if (ground.x < -treshold) {
+    ground.x = treshold;
     ground.x -= speed;
   } else {}
     ground.x -= speed
