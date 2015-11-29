@@ -390,10 +390,8 @@ var moveGround = function(ground, speed){
   var treshold = 2*game.width;
   if (ground.x < -treshold) {
     ground.x = treshold;
-    ground.x -= speed;
-  } else {
-    ground.x -= speed
   }
+  ground.x -= speed;
 }
 
 
