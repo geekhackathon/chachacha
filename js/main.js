@@ -152,7 +152,15 @@ function create() {
 	player1 = new Player('blueplayer', 32, 150, game);
 	player1.setScore(scores.player2);
 
-	opponents= game.add.group();
+	opponents= createOpponents();
+
+	stars = createStars();
+
+	cursors = createControls();
+}
+
+function createOpponents(){
+	var opponents= game.add.group();
 	opponents.enableBody = true;
 	opponents.add(new Opponent().value);
 	opponents.add(new Opponent().value);
@@ -161,10 +169,7 @@ function create() {
 	opponents.add(new Opponent().value);
 	opponents.add(new Opponent().value);
 	opponents.add(new Opponent().value);
-
-	stars = createStars();
-
-	cursors = createControls();
+	return opponents;
 }
 
 function createStars(){
