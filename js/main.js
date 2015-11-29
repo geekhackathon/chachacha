@@ -155,15 +155,18 @@ function create() {
 
 }
 
-function createPlayers(){
+function createPlayers(cursors){
 	var players = []; 
 
 	var player = new Player('redplayer', 32, game.height - 150, game);
 	player.setScore(scores.player1);
+	player.setCursor(cursors.arrows);
 	players.push(player);
+
 
 	var player1 = new Player('blueplayer', 32, 150, game);
 	player1.setScore(scores.player2);
+	player1.setCursor(cursors.wasd);
 	players.push(player1);
 
 	return players;
@@ -220,8 +223,8 @@ function update() {
 	moonspawn(moon, 3)
 
 	manage_collisions (game);
-	players[0].move(cursors.arrows);
-	players[1].move(cursors.wasd);
+	players[0].move();
+	players[1].move();
 }
 var moonspawn = function(background, speed) {
 	moveBackground(moon, speed);

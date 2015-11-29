@@ -15,7 +15,8 @@ function Player (key, x, y, game) {
 
 }
 
-Player.prototype.move = function(cursors) {
+Player.prototype.move = function() {
+	var cursors = this.cursor;
 	var player = this.player;
 
 	player.body.velocity.x = 0;
@@ -70,6 +71,9 @@ Player.prototype.decreaseScore = function() {
 
 Player.prototype.setScore = function(score) {
 	this.score = score;
+};
+Player.prototype.setCursor = function(cursor) {
+	this.cursor = cursor;
 };
 Player.prototype.name = function() {
 	return this.score.name;
