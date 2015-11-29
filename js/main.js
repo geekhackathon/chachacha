@@ -147,28 +147,28 @@ function create() {
 	scores={player1: new Score(16,16, 'red'), player2: new Score(550,16, 'blue')};
 
 	cursors = createControls();
-	players = createPlayers(cursors);
-	players[0].setScore(scores.player1);
-	players[1].setScore(scores.player2);
+	players = createPlayers(cursors, scores);
 	opponents= createOpponents();
 	stars = createStars();
 
 }
 
-function createPlayers(cursors){
+function createPlayers(cursors, scores){
 	var players = []; 
 
-	var player = new Player('redplayer', 32, game.height - 150, game);
-	player.setScore(scores.player1);
-	player.setCursor(cursors.arrows);
-	players.push(player);
+	{
+		var player = new Player('redplayer', 32, game.height - 150, game);
+		player.setCursor(cursors.arrows);
+		player.setScore(scores.player1);
+		players.push(player);
+	}
 
-
-	var player1 = new Player('blueplayer', 32, 150, game);
-	player1.setScore(scores.player2);
-	player1.setCursor(cursors.wasd);
-	players.push(player1);
-
+	{
+		var player = new Player('blueplayer', 32, 150, game);
+		player.setCursor(cursors.wasd);
+		player.setScore(scores.player2);
+		players.push(player);
+	}
 	return players;
 }
 
@@ -223,8 +223,9 @@ function update() {
 	moonspawn(moon, 3)
 
 	manage_collisions (game);
-	players[0].move();
-	players[1].move();
+	players.forEach(function(player){
+		player.move();
+	});
 }
 var moonspawn = function(background, speed) {
 	moveBackground(moon, speed);
