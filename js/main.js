@@ -381,8 +381,9 @@ var moveBackground = function(background, speed) {
   if (background.x < -game.width) {
     background.x = game.width;
     background.x -= speed;
-  } else {}
+  } else {
     background.x -= speed
+  }
 }
 
 var moveGround = function(ground, speed){
@@ -390,8 +391,9 @@ var moveGround = function(ground, speed){
   if (ground.x < -treshold) {
     ground.x = treshold;
     ground.x -= speed;
-  } else {}
+  } else {
     ground.x -= speed
+  }
 }
 
 
