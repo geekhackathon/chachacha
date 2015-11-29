@@ -180,9 +180,9 @@ function create() {
 
     scores={player1: new Score(16,16, 'red'), player2: new Score(550,16, 'blue')};
 
-    player = new Player('redplayer', 32, game.world.height - 150);
+    player = new Player('redplayer', 32, game.height - 150, game);
     player.setScore(scores.player1);
-		player1 = new Player('blueplayer', 32, 150);
+		player1 = new Player('blueplayer', 32, 150, game);
     player1.setScore(scores.player2);
 
     opponent1 = new Opponent();

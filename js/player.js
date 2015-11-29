@@ -1,8 +1,8 @@
-function Player (key, x, y) {
+function Player (key, x, y, game) {
 
-    this.player = game.add.sprite(x, y, key);
-
-    game.physics.arcade.enable(this.player);
+    this.game = game;
+    this.player = this.game.add.sprite(x, y, key);
+    this.game.physics.arcade.enable(this.player);
 
     this.player.body.bounce.y = 0;
     this.player.body.gravity.y = 0;
@@ -10,7 +10,7 @@ function Player (key, x, y) {
 
     this.player.animations.add('left', [8, 9, 10, 11], 10, true);
     this.player.animations.add('right', [0, 1, 2, 3], 10, true);
-		this.player.animations.add('stay', [4, 5, 6, 7], 10, true);
+	this.player.animations.add('stay', [4, 5, 6, 7], 10, true);
     this.player._obj = this;
 
 }
@@ -40,11 +40,11 @@ Player.prototype.move = function(cursors) {
 };
 
 Player.prototype.collideWith = function(platforms) {
-    game.physics.arcade.collide(this.player, platforms);
+    this.game.physics.arcade.collide(this.player, platforms);
 };
 
 Player.prototype.collideWithOpponent = function(player, opponent) {
-		opponent._obj.dying();
+	opponent._obj.dying();
     player._obj.decreaseScore();
 };
 
@@ -78,9 +78,9 @@ Player.prototype.name = function() {
 };
 
 Player.prototype.overlap2  = function(opponents) {
-    game.physics.arcade.overlap(this.player, opponents, this.collideWithOpponent, null, null);
+    this.game.physics.arcade.overlap(this.player, opponents, this.collideWithOpponent, null, null);
 }
 
 Player.prototype.overlap  = function(stars) {
-    game.physics.arcade.overlap(this.player, stars, this.collectStar, null, null);
+    this.game.physics.arcade.overlap(this.player, stars, this.collectStar, null, null);
 }
