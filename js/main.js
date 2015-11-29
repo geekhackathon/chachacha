@@ -175,13 +175,9 @@ function createPlayers(){
 function createOpponents(){
 	var opponents= game.add.group();
 	opponents.enableBody = true;
-	opponents.add(new Opponent().value);
-	opponents.add(new Opponent().value);
-	opponents.add(new Opponent().value);
-	opponents.add(new Opponent().value);
-	opponents.add(new Opponent().value);
-	opponents.add(new Opponent().value);
-	opponents.add(new Opponent().value);
+	for (var i = 0; i < 7; i++) {
+		opponents.add(new Opponent().value);
+	}
 	return opponents;
 }
 
