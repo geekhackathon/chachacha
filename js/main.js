@@ -184,9 +184,10 @@ function createOpponents(){
 
 function createStars(){
 	var stars = game.add.group();
+	var numberOfStars = 30;
 	stars.enableBody = true;
 
-	for (var i = 0; i < 30; i++) {
+	for (var i = 0; i < numberOfStars; i++) {
 		createStar(stars);
 	}
 
