@@ -162,16 +162,20 @@ function create() {
 	opponents.add(new Opponent().value);
 	opponents.add(new Opponent().value);
 
-	stars = game.add.group();
+	stars = createStars();
+
+	cursors = createControls();
+}
+
+function createStars(){
+	var stars = game.add.group();
 	stars.enableBody = true;
 
 	for (var i = 0; i < 30; i++) {
 		createStar(stars);
 	}
 
-	cursors = createControls();
-
-
+	return stars;
 }
 
 function createStar(stars){
