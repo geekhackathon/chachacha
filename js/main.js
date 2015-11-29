@@ -380,10 +380,8 @@ var moonspawn = function(background, speed) {
 var moveBackground = function(background, speed) {
   if (background.x < -game.width) {
     background.x = game.width;
-    background.x -= speed;
-  } else {
-    background.x -= speed
   }
+  background.x -= speed
 }
 
 var moveGround = function(ground, speed){
