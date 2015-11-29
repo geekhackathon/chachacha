@@ -116,7 +116,6 @@ Score.prototype.at = function(x, y) {
 };
 
 var players;
-var opponent1;
 var cursors;
 var blueplayer;
 var redplayer;
