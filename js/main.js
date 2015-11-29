@@ -22,8 +22,13 @@ function changePhaseTo(id, payload){
 
 
 function Opponent () {
-	var x = Math.random() * game.world.width;
-	var y = Math.random() * game.world.height;
+
+	var randomUpTo = function(higherBound){
+		return Math.random() * higherBound;
+	}
+
+	var x = randomUpTo(game.world.width);
+	var y = randomUpTo(game.world.height);
 	this.value = game.add.sprite(x, y, 'enemy1');
 
 	var value = this.value;
@@ -37,8 +42,8 @@ function Opponent () {
 	this.y = "y";
 	this.axis = this.y;
 
-	this.value.body.velocity.x = Math.random()*400;
-	this.value.body.velocity.y = Math.random()*400;
+	this.value.body.velocity.x = randomUpTo(400);
+	this.value.body.velocity.y = randomUpTo(400);
 
 	this.value.body.bounce.y = 0.95;
 	this.value.body.bounce.x = 0.95;
