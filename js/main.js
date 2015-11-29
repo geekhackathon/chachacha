@@ -152,23 +152,15 @@ function create() {
 	player1 = new Player('blueplayer', 32, 150, game);
 	player1.setScore(scores.player2);
 
-	opponent1 = new Opponent();
-	opponent2 = new Opponent();
-	opponent3 = new Opponent();
-	opponent4 = new Opponent();
-	opponent5 = new Opponent();
-	opponent6 = new Opponent();
-	opponent7 = new Opponent();
-
 	opponents= game.add.group();
 	opponents.enableBody = true;
-	opponents.add(opponent1.value);
-	opponents.add(opponent2.value);
-	opponents.add(opponent3.value);
-	opponents.add(opponent4.value);
-	opponents.add(opponent5.value);
-	opponents.add(opponent6.value);
-	opponents.add(opponent7.value);
+	opponents.add(new Opponent().value);
+	opponents.add(new Opponent().value);
+	opponents.add(new Opponent().value);
+	opponents.add(new Opponent().value);
+	opponents.add(new Opponent().value);
+	opponents.add(new Opponent().value);
+	opponents.add(new Opponent().value);
 
 	stars = game.add.group();
 	stars.enableBody = true;
