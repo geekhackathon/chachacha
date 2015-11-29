@@ -3,7 +3,11 @@ var started = false;
 function startGame(){
 	if(!started){
 		changePhaseTo('gameplay');
-		game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
+		game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', 
+			{ preload: preload,
+			  create: create,
+			  update: update
+		 	});
 		started = true;
 	}
 }
