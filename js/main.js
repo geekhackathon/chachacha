@@ -147,16 +147,29 @@ function create() {
 
 	scores={player1: new Score(16,16, 'red'), player2: new Score(550,16, 'blue')};
 
-	player = new Player('redplayer', 32, game.height - 150, game);
+	cursors = createControls();
+	var players = createPlayers(cursors);
+	player = players[0];
 	player.setScore(scores.player1);
-	player1 = new Player('blueplayer', 32, 150, game);
+	player1 = players[1];
 	player1.setScore(scores.player2);
-
 	opponents= createOpponents();
-
 	stars = createStars();
 
-	cursors = createControls();
+}
+
+function createPlayers(){
+	var players = []; 
+
+	var player = new Player('redplayer', 32, game.height - 150, game);
+	player.setScore(scores.player1);
+	players.push(player);
+
+	var player1 = new Player('blueplayer', 32, 150, game);
+	player1.setScore(scores.player2);
+	players.push(player1);
+
+	return players;
 }
 
 function createOpponents(){
