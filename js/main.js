@@ -154,8 +154,8 @@ function create() {
 
 function createScores () {
 	return {
-		player1: new Score(16,16, 'red'),
-		player2: new Score(550,16, 'blue')
+		player1: new Score(16, 16, 'red'),
+		player2: new Score(550, 16, 'blue')
 	};
 }
 
