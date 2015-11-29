@@ -53,10 +53,6 @@ Opponent.prototype.move = function() {
 	this.value.animations.play('left');
 };
 
-Opponent.prototype.dying = function() {
-	this.value.animations.play("die");
-};
-
 function preload() {
 
 	game.load.image('background1', 'assets/background_layout_stars_one.png');

@@ -45,7 +45,6 @@ Player.prototype.collideWith = function(platforms) {
 };
 
 Player.prototype.collideWithOpponent = function(player, opponent) {
-	opponent._obj.dying();
 	player._obj.decreaseScore();
 };
 
