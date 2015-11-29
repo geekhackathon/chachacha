@@ -45,8 +45,9 @@ function Opponent () {
 	this.value.body.velocity.x = randomUpTo(400);
 	this.value.body.velocity.y = randomUpTo(400);
 
-	this.value.body.bounce.y = 0.95;
-	this.value.body.bounce.x = 0.95;
+	var bounceRate = 0.95;
+	this.value.body.bounce.y = bounceRate;
+	this.value.body.bounce.x = bounceRate;
 
 	this.value._obj = this;
 
