@@ -144,13 +144,19 @@ function create() {
 	ground3 = game.add.sprite(1600,game.world.height-64, 'ground2');
 
 
-	scores={player1: new Score(16,16, 'red'), player2: new Score(550,16, 'blue')};
-
+	scores = createScores();
 	cursors = createControls();
 	players = createPlayers(cursors, scores);
 	opponents= createOpponents();
 	stars = createStars();
 
+}
+
+function createScores () {
+	return {
+		player1: new Score(16,16, 'red'),
+		player2: new Score(550,16, 'blue')
+	};
 }
 
 function createPlayers(cursors, scores){
