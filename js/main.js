@@ -242,8 +242,6 @@ function update() {
 	manage_collisions (game);
 	player.move(cursors.arrows);
 	player1.move(cursors.wasd);
-	opponent1.move();
-
 }
 var moonspawn = function(background, speed) {
 	moveBackground(moon, speed);
