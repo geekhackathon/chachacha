@@ -2,7 +2,7 @@ var game;
 var started = false;
 function startGame(){
   if(!started){
-    document.getElementById('menu').remove();
+   changePhaseTo('gameplay');
    game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', { preload: preload, create: create, update: update });
    started = true;
   }
@@ -14,7 +14,9 @@ function changePhaseTo(id, payload){
     var name = payload.name;
     document.getElementById('end').innerHTML  = '<img src="assets/'+name+'wins.jpg"> </img>';
     document.getElementById('game').remove();
-  };
+  } else if (id === 'gameplay'){
+    document.getElementById('menu').remove();
+  }
 
 }
 
