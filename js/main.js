@@ -250,8 +250,6 @@ var music;
 var chachacha;
 
 function create() {
-
-    //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
     music = game.sound.play('music');
     background1 = game.add.sprite(0, 0, 'background1');
@@ -265,29 +263,10 @@ function create() {
     ground3 = game.add.sprite(1600,game.world.height-64, 'ground2');
 
 
-    //  The platforms group contains the ground and the 2 ledges we can jump on
     platforms = game.add.group();
 
-    //  We will enable physics for any object that is created in this group
     platforms.enableBody = true;
 
-    // Here we create the ground.
-    //var ground = platforms.create(0, game.world.height - 64, 'ground');
-
-    //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-    //ground.scale.setTo(2, 2);
-
-    //  This stops it from falling away when you jump on it
-    //ground.body.immovable = true;
-
-    //  Now let's create two ledges
-    // var ledge = platforms.create(400, 400, 'ground');
-    // ledge.body.immovable = true;
-
-    // ledge = platforms.create(-150, 250, 'ground');
-    // ledge.body.immovable = true;
-
-    // The player and its settings
     scores={player1: new Score(16,16, 'red'), player2: new Score(550,16, 'blue')};
 
     player = new Player('redplayer', 32, game.world.height - 150);
