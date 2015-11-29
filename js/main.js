@@ -257,9 +257,9 @@ function create() {
     background1 = game.add.sprite(0, 0, 'background1');
     background2 = game.add.sprite(0, 0, 'background2');
     background3 = game.add.sprite(0, 0, 'background3');
-    background4 = game.add.sprite(800, 0, 'background1');
-    background5 = game.add.sprite(800, 0, 'background2');
-    background6 = game.add.sprite(800, 0, 'background3');
+    background4 = game.add.sprite(game.width, 0, 'background1');
+    background5 = game.add.sprite(game.width, 0, 'background2');
+    background6 = game.add.sprite(game.width, 0, 'background3');
     moon = game.add.sprite(1000, 500, 'moon');
     ground2 = game.add.sprite(0,game.world.height-64, 'ground2');
     ground3 = game.add.sprite(1600,game.world.height-64, 'ground2');
@@ -330,7 +330,7 @@ function create() {
 
 function createStar(stars){
   //  Create a star inside of the 'stars' group
-        var star = stars.create(Math.random()*800, Math.random()*600, 'star');
+        var star = stars.create(Math.random()*game.width, Math.random()*600, 'star');
 
         //  Let gravity do its thing
         star.body.gravity.y = 0;
@@ -378,8 +378,8 @@ var moonspawn = function(background, speed) {
 }
 
 var moveBackground = function(background, speed) {
-  if (background.x < -800) {
-    background.x = 800;
+  if (background.x < -game.width) {
+    background.x = game.width;
     background.x -= speed;
   } else {}
     background.x -= speed
