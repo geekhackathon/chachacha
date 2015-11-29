@@ -206,13 +206,7 @@ function create() {
 }
 
 function createStar(stars){
-	//  Create a star inside of the 'stars' group
 	var star = stars.create(Math.random()*game.width, Math.random()*game.height, 'star');
-
-	//  Let gravity do its thing
-	star.body.gravity.y = 0;
-
-	//  This just gives each star a slightly random bounce value
 	star.body.bounce.y = 0.7 + Math.random() * 0.2;
 }
 
