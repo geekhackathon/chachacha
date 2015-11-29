@@ -22,9 +22,9 @@ function changePhaseTo(id, payload){
 
 
 function Opponent () {
-	var x = Math.floor((Math.random() * 495) + 1);
-	var y = Math.floor((Math.random() * 495) + 1);
-	this.value = game.add.sprite( game.world.width - x, game.world.height - y, 'enemy1');
+	var x = Math.random() * game.world.width;
+	var y = Math.random() * game.world.height;
+	this.value = game.add.sprite(x, y, 'enemy1');
 
 	var value = this.value;
 
