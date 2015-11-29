@@ -330,7 +330,7 @@ function create() {
 
 function createStar(stars){
   //  Create a star inside of the 'stars' group
-        var star = stars.create(Math.random()*game.width, Math.random()*600, 'star');
+        var star = stars.create(Math.random()*game.width, Math.random()*game.height, 'star');
 
         //  Let gravity do its thing
         star.body.gravity.y = 0;
