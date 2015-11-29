@@ -66,8 +66,6 @@ Player.prototype.collideWithOpponent = function(player, opponent) {
 
 
 Player.prototype.collectStar  = function(player, star) {
-
-    // Removes the star from the screen
     star.kill();
     try{
       player._obj.increaseScore();
@@ -115,8 +113,6 @@ function Opponent () {
     value.body.collideWorldBounds = true;
 
     value.animations.add('left', [0, 1, 2, 3], 10, true);
-		//var muerte=value.animations.add('die', [4, 5, 6, 7], 10, false);
-		//muerte.killOnComplete = true;
 		value.animations.add('right', [0, 1, 2, 3], 10, true);
     this.x = "x";
     this.y = "y";
@@ -133,10 +129,6 @@ function Opponent () {
 }
 
 Opponent.prototype.move = function() {
-    /*
-    this.value.body.position.x += this.value.body.velocity.x/4;
-    this.value.body.position.y += this.value.body.velocity.y/4;
-    */
     this.value.animations.play('left');
 };
 
