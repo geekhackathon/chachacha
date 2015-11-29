@@ -119,8 +119,7 @@ Score.prototype.at = function(x, y) {
 	this.scoreText = game.add.text(x, y, this.show(0), { fontSize: '32px', fill: '#fff' });
 };
 
-var player;
-var player1;
+var players;
 var opponent1;
 var cursors;
 var blueplayer;
@@ -148,11 +147,9 @@ function create() {
 	scores={player1: new Score(16,16, 'red'), player2: new Score(550,16, 'blue')};
 
 	cursors = createControls();
-	var players = createPlayers(cursors);
-	player = players[0];
-	player.setScore(scores.player1);
-	player1 = players[1];
-	player1.setScore(scores.player2);
+	players = createPlayers(cursors);
+	players[0].setScore(scores.player1);
+	players[1].setScore(scores.player2);
 	opponents= createOpponents();
 	stars = createStars();
 
@@ -223,8 +220,8 @@ function update() {
 	moonspawn(moon, 3)
 
 	manage_collisions (game);
-	player.move(cursors.arrows);
-	player1.move(cursors.wasd);
+	players[0].move(cursors.arrows);
+	players[1].move(cursors.wasd);
 }
 var moonspawn = function(background, speed) {
 	moveBackground(moon, speed);
@@ -252,9 +249,8 @@ var moveGround = function(ground, speed){
 
 
 function manage_collisions (game) {
-	player.canCollect(stars);
-	player.canCollideWith(opponents);
-
-	player1.canCollect(stars);
-	player1.canCollideWith(opponents);
+	players.forEach(function(player){
+		player.canCollect(stars);
+		player.canCollideWith(opponents);
+	})
 }
