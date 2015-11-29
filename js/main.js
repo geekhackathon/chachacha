@@ -38,9 +38,6 @@ function Opponent () {
 
 	value.animations.add('left', [0, 1, 2, 3], 10, true);
 	value.animations.add('right', [0, 1, 2, 3], 10, true);
-	this.x = "x";
-	this.y = "y";
-	this.axis = this.y;
 
 	this.value.body.velocity.x = randomUpTo(400);
 	this.value.body.velocity.y = randomUpTo(400);
@@ -50,7 +47,6 @@ function Opponent () {
 	this.value.body.bounce.x = bounceRate;
 
 	this.value._obj = this;
-
 }
 
 Opponent.prototype.move = function() {
@@ -60,31 +56,6 @@ Opponent.prototype.move = function() {
 Opponent.prototype.dying = function() {
 	this.value.animations.play("die");
 };
-
-Opponent.prototype.switch_direction = function (self) {
-	"use strict";
-	if (self._obj.axis ===  self._obj.x && self.body.velocity.x > 0) {
-		self.body.velocity.y = -150;
-		self.body.velocity.x = 1530;
-		self._obj.axis = self._obj.y;
-	} else if (self._obj.axis ===  self._obj.x && self.body.velocity.x <= 0) {
-		self.body.velocity.y = 150;
-		self.body.velocity.x = 1530;
-		self._obj.axis = self._obj.y;
-	} else if (self._obj.axis ===  self._obj.y && self.body.velocity.y <= 0) {
-		self.body.velocity.y = 0;
-		self.body.velocity.x = 1530;
-		self._obj.axis = self._obj.x;
-	} else {
-		self.body.velocity.y = 0;
-		self.body.velocity.x = -1530;
-		self._obj.axis = self._obj.x;
-	}
-};
-
-Opponent.prototype.overlap  = function(obstacles) {
-	game.physics.arcade.overlap(this.value, obstacles, this.switch_direction, null, this);
-}
 
 function preload() {
 
