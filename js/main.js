@@ -80,11 +80,6 @@ Opponent.prototype.overlap  = function(obstacles) {
 	game.physics.arcade.overlap(this.value, obstacles, this.switch_direction, null, this);
 }
 
-Opponent.prototype.collideWith = function(platforms) {
-	game.physics.arcade.collide(this.value, platforms, this.switch_direction, null, null);
-};
-
-
 function preload() {
 
 	game.load.image('background1', 'assets/background_layout_stars_one.png');
@@ -150,7 +145,6 @@ Score.prototype.at = function(x, y) {
 var player;
 var player1;
 var opponent1;
-var platforms;
 var cursors;
 var blueplayer;
 var redplayer;
@@ -173,10 +167,6 @@ function create() {
 	ground2 = game.add.sprite(0,game.world.height-64, 'ground2');
 	ground3 = game.add.sprite(1600,game.world.height-64, 'ground2');
 
-
-	platforms = game.add.group();
-
-	platforms.enableBody = true;
 
 	scores={player1: new Score(16,16, 'red'), player2: new Score(550,16, 'blue')};
 
@@ -281,14 +271,6 @@ var moveGround = function(ground, speed){
 
 
 function manage_collisions (game) {
-	//  Collide the player and the stars with the platforms
-	player.collideWith(platforms);
-	player1.collideWith(platforms);
-
-	opponent1.collideWith(platforms);
-	game.physics.arcade.collide(opponents, platforms);
-	game.physics.arcade.collide(stars, platforms);
-
 	player.canCollect(stars);
 	player.canCollideWith(opponents);
 
