@@ -49,8 +49,6 @@ Player.prototype.move = function(cursors) {
         }
     } else {
         player.animations.play('stay');
-
-      //  player.frame = 4;
     }
 };
 
