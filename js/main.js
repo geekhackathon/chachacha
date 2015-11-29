@@ -289,11 +289,9 @@ function manage_collisions (game) {
 	game.physics.arcade.collide(opponents, platforms);
 	game.physics.arcade.collide(stars, platforms);
 
-	//  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
-	player.overlap(stars);
-	//opponent1.overlap(platforms);
-	player.overlap2(opponents);
-	player1.overlap(stars);
-	//opponent1.overlap(platforms);
-	player1.overlap2(opponents);
+	player.canCollect(stars);
+	player.canCollideWith(opponents);
+
+	player1.canCollect(stars);
+	player1.canCollideWith(opponents);
 }

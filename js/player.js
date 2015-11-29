@@ -75,10 +75,10 @@ Player.prototype.name = function() {
 	return this.score.name;
 };
 
-Player.prototype.overlap2  = function(opponents) {
+Player.prototype.canCollideWith  = function(opponents) {
 	this.game.physics.arcade.overlap(this.player, opponents, this.collideWithOpponent, null, null);
 }
 
-Player.prototype.overlap  = function(stars) {
+Player.prototype.canCollect  = function(stars) {
 	this.game.physics.arcade.overlap(this.player, stars, this.collectStar, null, null);
 }
